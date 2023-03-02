@@ -1,5 +1,5 @@
-﻿let fibbonachi n =
-    match n with
+﻿let fibonacchi n =                      // fibonacchi sequence: 1, 1, 2, 3, 5, 8, ...
+    match n with                        //             indexes: 1, 2, 3, 4, 5, 6
     | 0u -> None
     | 1u -> Some 1I
     | 2u -> Some 1I
@@ -10,4 +10,4 @@
             | _ -> loop (iter + 1u) snd (fst + snd)
         loop 2u 1I 1I
         
-printf "%A" <| fibbonachi 100u
+printf "%A" <| fibonacchi 100u
