@@ -1,5 +1,5 @@
 ﻿let find_n aList n =
-  if List.length aList = 0 then None
+  if aList = [] then None
   else   
     let rec loop aList n iter =
       if List.head aList = n then Some iter
