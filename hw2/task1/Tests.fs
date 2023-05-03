@@ -6,7 +6,7 @@
     
     [<Test>]
     let ``Empty list`` () =
-        quantity_mod1 [1] |> should equal 0
+        quantity_mod1 [] |> should equal 0
         
     [<Test>] 
     let ``Only even numbers`` () =
@@ -19,6 +19,10 @@
     [<Test>]   
     let ``Regular test`` () =
         quantity_mod1 [1 .. 10] |> should equal 5
+         
+    [<Test>]   
+    let ``Negative numbers`` () =
+        quantity_mod1 [-10 .. -1] |> should equal 5
     
 
 
