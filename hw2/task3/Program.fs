@@ -21,21 +21,3 @@ let calculate exp =
             | None -> None
             
     calcCPS exp Some 
-    
-    // calcCPS (2 + 3) id
-    // calcCPS 2 (fun x -> calcCPS 3 (fun y -> id (x + y)))
-    // (fun x -> calcCPS 3 (fun y -> id (x + y)) 2
-    // calcCPS 3 (fun y -> id (2 + y))
-    // (fun y -> id (2 + y)) 3
-    // id (2 + 3)
-    // Some 5
-    // calcCPS (2 / 0) id
-    // calcCPS 0 id
-    // (fun x -> calcCPS 3 (fun y -> id (x + y)) 0
-    // calcCPS 3 (fun y -> id (2 + y))
-    // (fun y -> id (2 + y)) 3
-    // id (2 + 3)
-    // 5 
-    
-let exp = Plus(Minus(Const(10), Const(3)), Times(Minus(Const(7), Const(1)), Const(4))) // (10 - 3) + (7 - 1) * 4
-printfn "%A" <| calculate exp
