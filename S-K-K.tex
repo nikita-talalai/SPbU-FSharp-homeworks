@@ -1,0 +1,39 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{amssymb, amsmath, amsthm}
+
+\title{hw-3}
+\author{Nikita Talalai}
+\date{May 2023}
+
+\newtheorem*{thm}{Theorem}
+
+\begin{document}
+    \maketitle
+
+    \centering{\section*{Second Task}}
+
+        \begin{thm}
+            S K K = I
+        \end{thm}
+        
+        \begin{proof}
+            \begin{equation*}\label{xx}
+                \begin{split}
+                    S\ K\ K& = \overbrace{(\lambda f\ g\ x.f\ x\ (g\ x))}^{S}\
+                    \overbrace{(\lambda x\ y.x)}^{K}\ \overbrace{(\lambda x\ y.x)}^{K}\\
+                    & \to_\beta [f := \lambda x\ y.x]\\
+                    & \to_\beta (\lambda g\ x.(\lambda x\ y.x)\ x\ (g\ x))\  (\lambda x\ y.x)\\
+                    & \to_\alpha (\lambda g\ x.(\lambda x'\ y.x')\ x\ (g\ x))\  (\lambda x\ y.x)\\
+                    & \to_\beta [g := \lambda x\ y.x]\\ 
+                    & \to_\beta \lambda x.(\lambda x'\ y.x')\ x\ ((\lambda x\ y.x)\ x)\\
+                    & \to_\alpha \lambda x.(\lambda x'\ y.x')\ x\ ((\lambda x''\ y.x'')\ x)\\
+                    & \to_\beta [x' := x]\\
+                    & \to_\beta \lambda x.(\lambda y.x)\ ((\lambda x''\ y.x'')\ x)\\
+                    & \to_\beta [y := (\lambda x''\ y.x'')\ x]\\
+                    & \to_\beta \lambda x.x\\
+                    & = I
+                \end{split}
+            \end{equation*}
+        \end{proof}
+    
+\end{document}
