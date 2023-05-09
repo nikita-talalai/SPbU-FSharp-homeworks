@@ -1,0 +1,33 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{amssymb, amsmath, amsthm}
+
+\title{hw-3}
+\author{Nikita Talalai}
+\date{May 2023}
+
+\newtheorem*{ex}{Exercise}
+\newtheorem*{sol}{Solution}
+ 
+\begin{document}
+
+    \maketitle
+    \centering{\section*{First Task}}
+
+    \begin{ex}
+        \begin{equation}\label{1}
+            ((\lambda a.(\lambda b.b\ b)\ (\lambda b.b\ b))\ b)\  ((\lambda c.c\ b)\ (\lambda a.a))
+        \end{equation}
+    \end{ex}
+
+    \begin{sol}
+        \begin{equation*}
+            \begin{split}
+                ((\lambda a.(\lambda b.b\ b)\ (\lambda b.b\ b))\ b)\  ((\lambda c.c\ b)\ (\lambda a.a)) 
+                & \xrightarrow[\beta]{} ((\lambda b.b\ b)\ (\lambda b.b\ b))\  ((\lambda c.c\ b)\ (\lambda a.a))\\
+                & = \Omega\ ((\lambda c.c\ b)\ (\lambda a.a))
+            \end{split}
+        \end{equation*}
+        \centering{Eqation \eqref{1} hasn't normal form}
+    \end{sol}
+    
+\end{document}
