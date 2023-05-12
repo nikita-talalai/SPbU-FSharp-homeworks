@@ -18,4 +18,7 @@ let ``Return all non-zero numbers`` () =
 [<Test>]
 let ``Empty tree`` () =
     Empty |> filter (fun x -> true) |> should equal []
-
+    
+[<Test>]
+let ``First 10 elements of sequence`` () =
+    init_seq() |> Seq.take 10 |> should equal [1; 2; 2; 3; 3; 3; 4; 4; 4; 4]
