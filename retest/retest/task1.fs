@@ -8,3 +8,5 @@ let init_seq ()=
         rec_calc n 0
     
     Seq.initInfinite calc
+    
+init_seq () |> Seq.take 100 |> Seq.iter (printf "%i ")
