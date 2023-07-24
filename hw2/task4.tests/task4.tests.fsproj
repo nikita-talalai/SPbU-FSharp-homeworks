@@ -10,7 +10,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FsCheck" Version="3.0.0-rc1" />
       <PackageReference Include="FsUnit" Version="5.4.0" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
       <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
