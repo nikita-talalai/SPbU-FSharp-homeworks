@@ -7,13 +7,6 @@
 
     <ItemGroup>
         <Compile Include="Program.fs" />
-        <Compile Include="Tests.fs" />
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="FsUnit" Version="5.2.0" />
-      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-      <PackageReference Include="Nunit.Framework.TestCaseStorage" Version="1.0.1" />
-    </ItemGroup>
-
+    
 </Project>
