@@ -17,7 +17,7 @@ let downloadPageAsync (url:string) =
 let getUrlsAsync (url:string) =
     async {
        let! html = downloadPageAsync url
-       let pattern = Regex("<a.*href=\"(https?://.*)\".*>", RegexOptions.Compiled)
+       let pattern = Regex("<a.*href=\"(https?://\S*)\".*>", RegexOptions.Compiled)
        let matches = pattern.Matches(html) |> Seq.map (fun m -> m.Groups[1].Value)
        return matches
     }
