@@ -6,12 +6,17 @@ open System.Text.RegularExpressions
 
 let downloadPageAsync (url:string) =
     async {
-       use client = new HttpClient()
-       use! stream = client.GetStreamAsync(url) |> Async.AwaitTask
-       use reader = new StreamReader(stream)
-       let html = reader.ReadToEnd()
-       do printf $"%s{url} is %d{html.Length} characters length\n"
-       return html
+       try
+            use client = new HttpClient()
+            use! stream = client.GetStreamAsync(url) |> Async.AwaitTask
+            use reader = new StreamReader(stream)
+            let html = reader.ReadToEnd()
+            do printf $"%s{url} is %d{html.Length} characters length\n"
+            return html
+       with
+            ex ->
+                printfn "%s" ex.Message
+                return ""
     }
 
 let patternMatch html =
