@@ -4,10 +4,9 @@ open System.Net.Http
 open System.IO
 open System.Text.RegularExpressions
 
-let downloadPageAsync (url:string) =
+let downloadPageAsync (client:HttpClient) (url:string) =
     async {
        try
-            use client = new HttpClient()
             use! stream = client.GetStreamAsync(url) |> Async.AwaitTask
             use reader = new StreamReader(stream)
             let html = reader.ReadToEnd()
@@ -26,16 +25,18 @@ let patternMatch html =
         pattern.Matches(html) |> Seq.map (fun m -> m.Groups[1].Value)
     | None -> Seq.empty
     
-let getUrlsAsync (url:string) =
+let getUrlsAsync (client:HttpClient) (url:string) =
     async {
-       let! html = downloadPageAsync url
+       let! html = downloadPageAsync client url
        let matches = patternMatch html
        return matches
     }
 
-let crawl url = getUrlsAsync(url)
+let crawl (url:string) =
+                let client = new HttpClient()
+                getUrlsAsync client url
                 |> Async.RunSynchronously
-                |> Seq.map downloadPageAsync
+                |> Seq.map (downloadPageAsync client)
                 |> Async.Parallel
                 |> Async.Ignore
                 |> Async.RunSynchronously
