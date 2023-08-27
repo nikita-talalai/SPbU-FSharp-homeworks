@@ -2,21 +2,11 @@
 
 open System.Net.Http
 open System.IO
+open System.Runtime.InteropServices.JavaScript
 open System.Text.RegularExpressions
 
-let downloadPageAsync (client:HttpClient) (url:string) =
-    async {
-       try
-            use! stream = client.GetStreamAsync(url) |> Async.AwaitTask
-            use reader = new StreamReader(stream)
-            let html = reader.ReadToEnd()
-            do printf $"%s{url} is %d{html.Length} characters length\n"
-            return Some html
-       with
-            ex ->
-                printfn $"%s{ex.Message}"
-                return None
-    }
+let downloadPageAsync (client: HttpClient) (url: string) =
+    client.GetStringAsync(url) |> Async.AwaitTask |> Async.Catch
 
 let patternMatch html =
     match html with
@@ -25,18 +15,35 @@ let patternMatch html =
         pattern.Matches(html) |> Seq.map (fun m -> m.Groups[1].Value)
     | None -> Seq.empty
     
-let getUrlsAsync (client:HttpClient) (url:string) =
+let getLengthsAsync (client: HttpClient) (url: string) =
     async {
-       let! html = downloadPageAsync client url
-       let matches = patternMatch html
-       return matches
+        let! initialPage  = downloadPageAsync client url
+
+        match initialPage with
+        | Choice1Of2 str ->
+            let urls = patternMatch (Some str)
+            let! pages = urls |> Seq.map (downloadPageAsync client) |> Async.Parallel
+
+            return
+                pages
+                |> Seq.map (fun page ->
+                    match page with
+                    | Choice1Of2 str -> str |> String.length |> Some
+                    | Choice2Of2 _ -> None)
+                |> Seq.zip urls
+        | Choice2Of2 ex ->
+            do printfn $"{ex.Message}"
+            return Seq.empty
     }
 
 let crawl (url:string) =
-                let client = new HttpClient()
-                getUrlsAsync client url
-                |> Async.RunSynchronously
-                |> Seq.map (downloadPageAsync client)
-                |> Async.Parallel
-                |> Async.Ignore
-                |> Async.RunSynchronously
+    async {
+        let client = new HttpClient()
+        let! stats = getLengthsAsync client url
+
+        stats
+        |> Seq.iter (fun (url, length) ->
+            match length with
+            | Some l -> printfn $"{url} - {l}"
+            | None -> printfn $"{url} - the connection cannot be established")
+    }
